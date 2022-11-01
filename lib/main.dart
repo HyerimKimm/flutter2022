@@ -1,7 +1,14 @@
+import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter2022/splash_screen.dart';
+import 'package:flutter2022/router/locations.dart';
+import 'package:flutter2022/screens/home_screen.dart';
+import 'package:flutter2022/screens/splash_screen.dart';
+import 'package:flutter2022/utils/logger.dart';
+
+final _routedelegate = BeamerDelegate(locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()]));
 
 void main(){
+  logger.d;
   runApp(MyApp());
 }
 
@@ -34,9 +41,8 @@ class HyerimApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.amber,
+    return MaterialApp.router(
+      routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
     );
   }
 }
-
