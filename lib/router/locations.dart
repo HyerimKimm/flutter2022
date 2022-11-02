@@ -5,7 +5,7 @@ import 'package:flutter2022/screens/home_screen.dart';
 class HomeLocation extends BeamLocation{
   @override
   List<BeamPage> buildPages(BuildContext context, BeamState state) {
-    return [BeamPage(child: homeScreen(), key: ValueKey('home'))];
+    return [BeamPage(child: HomeScreen(), key: ValueKey('home'))];
   }
 
   @override

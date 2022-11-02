@@ -1,11 +1,17 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2022/router/locations.dart';
-import 'package:flutter2022/screens/home_screen.dart';
+import 'package:flutter2022/screens/auth_screen.dart';
 import 'package:flutter2022/screens/splash_screen.dart';
 import 'package:flutter2022/utils/logger.dart';
 
-final _routedelegate = BeamerDelegate(locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()]));
+final _routedelegate = BeamerDelegate(
+  guards: [BeamGuard(pathBlueprints: ['/'], check: (context, location){
+    return false;
+  },showPage: BeamPage(child: AuthScreen()),
+  )],
+    locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()])
+);
 
 void main(){
   logger.d;
