@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter2022/utils/logger.dart';
 
 class IntroPage extends StatelessWidget {
-  const IntroPage({Key? key}) : super(key: key);
+  PageController controller;
+  IntroPage(this.controller, {Key? key}) : super(key: key);
 
   void onButtonClick(){
-    logger.d('On TextButton Click');
+    controller.animateToPage(1, duration: Duration(milliseconds: 500), curve: Curves.ease, );
   }
 
   @override
@@ -25,7 +26,7 @@ class IntroPage extends StatelessWidget {
             Stack(
               alignment: Alignment(0,0.9),
               children: [
-                ExtendedImage.asset('assets/images/together.jpg',scale: 2.5,),
+                ExtendedImage.asset('assets/images/together.jpg',scale: 4,),
                 ExtendedImage.asset('assets/images/loverens.png',scale: 6,),],
             ),
             Text('패션 킬러 혜림 쇼핑몰',style:TextStyle(fontSize:20, fontWeight: FontWeight.bold)),
