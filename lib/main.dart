@@ -49,7 +49,12 @@ class HyerimApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       theme: ThemeData(
-          primarySwatch: Colors.blueGrey, primaryColorLight:Colors.white, primaryColorDark: Colors.indigo, fontFamily: 'NotoSansKR'),
+          primarySwatch: Colors.blueGrey,
+          primaryColorLight:Colors.white,
+          primaryColorDark: Colors.indigo,
+          fontFamily: 'NotoSansKR',
+          hintColor: Colors.grey[350]
+      ),
       routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
     );
   }
