@@ -8,8 +8,9 @@ class AddressPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      minimum: EdgeInsets.all(16),
+      minimum: EdgeInsets.only(left: 16, right: 16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
                 decoration: InputDecoration(
@@ -20,28 +21,25 @@ class AddressPage extends StatelessWidget {
                 ),
             ),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
+              padding: const EdgeInsets.only(top: 5, left: 5,right: 5),
+              child:
                   TextButton.icon(
                     onPressed: (){},
                     label: Text('현재위치로 찾기', style: TextStyle(color: Colors.white, fontSize: 18),),
                     style: TextButton.styleFrom(
                       backgroundColor: Theme.of(context).primaryColorDark,
+                      minimumSize: Size(10, 40),
                     ),
                     icon: Icon(Icons.search,color: Colors.white60,),
                   ),
-                ],
-              ),
             ),
             Expanded(
               child: ListView.builder(itemBuilder: (context, index) {
                 return ListTile(
-                  leading: ExtendedImage.asset('assets/images/hyerim.jpg'),
+                  leading: ExtendedImage.asset('assets/images/loverens.png'),
                   title: Text('address $index', style: TextStyle(fontWeight: FontWeight.bold),),
                   subtitle: Text('subtitle $index'),);
-              }, itemCount: 10,),
+              }, itemCount: 10, padding: EdgeInsets.symmetric(vertical: 5, horizontal: 5),),
             )
           ],
       ),
