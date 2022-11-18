@@ -1,14 +1,14 @@
 import 'package:beamer/beamer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter2022/router/locations.dart';
-import 'package:flutter2022/screens/auth_screen.dart';
+import 'package:flutter2022/screens/start_screen.dart';
 import 'package:flutter2022/screens/splash_screen.dart';
 import 'package:flutter2022/utils/logger.dart';
 
 final _routedelegate = BeamerDelegate(
   guards: [BeamGuard(pathBlueprints: ['/'], check: (context, location){
     return false;
-  },showPage: BeamPage(child: AuthScreen()),
+  },showPage: BeamPage(child: StartScreen()),
   )],
     locationBuilder: BeamerLocationBuilder(beamLocations: [HomeLocation()])
 );
@@ -53,7 +53,12 @@ class HyerimApp extends StatelessWidget {
           primaryColorLight:Colors.white,
           primaryColorDark: Colors.indigo,
           fontFamily: 'NotoSansKR',
-          hintColor: Colors.grey[350]
+          hintColor: Colors.grey[350],
+          appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            titleTextStyle: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
+            elevation: 2,
+          ),
       ),
       routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
     );
