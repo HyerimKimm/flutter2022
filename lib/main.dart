@@ -52,6 +52,9 @@ class HyerimApp extends StatelessWidget {
           primarySwatch: Colors.blueGrey,
           primaryColorLight:Colors.white,
           primaryColorDark: Colors.indigo,
+          textTheme: TextTheme(
+              headline6: TextStyle(fontWeight: FontWeight.bold),
+          ),
           fontFamily: 'NotoSansKR',
           hintColor: Colors.grey[350],
           appBarTheme: AppBarTheme(

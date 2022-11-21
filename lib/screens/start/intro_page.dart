@@ -29,7 +29,7 @@ class IntroPage extends StatelessWidget {
                 ExtendedImage.asset('assets/images/together.jpg',scale: 4,),
                 ExtendedImage.asset('assets/images/loverens.png',scale: 6,),],
             ),
-            Text('패션 킬러 혜림 쇼핑몰',style:TextStyle(fontSize:20, fontWeight: FontWeight.bold)),
+            Text( '패션 킬러 혜림 쇼핑몰',style:Theme.of(context).textTheme.headline6 ),
             Text('혜림 쇼핑몰은 항상 편하고 개성넘칩니다.\n혜림 쇼핑몰과 함께 당신을 패션으로 표현해보세요',style:TextStyle(fontSize:15)),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15),
