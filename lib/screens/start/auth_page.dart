@@ -33,6 +33,7 @@ class AuthPage extends StatelessWidget {
                   decoration: InputDecoration(
                     focusedBorder: inputBorder, border: inputBorder,
                   ),
+                  keyboardType: TextInputType.number,
                 ),
               ],
             ),
