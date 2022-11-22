@@ -1,12 +1,13 @@
 import 'package:extended_image/extended_image.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import '../../constants/common_size.dart';
 
 class AuthPage extends StatelessWidget {
   AuthPage({Key? key}) : super(key: key);
 
   final inputBorder = OutlineInputBorder(borderSide: BorderSide(color: Colors.grey));
+  TextEditingController _controller = TextEditingController(text: '010');
 
   @override
   Widget build(BuildContext context) {
@@ -30,17 +31,45 @@ class AuthPage extends StatelessWidget {
                 ]),
                 SizedBox(height: common_padding,),
                 TextFormField(
+                  controller: _controller,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    MaskedInputFormatter("000 0000 0000")
+                  ],
                   decoration: InputDecoration(
                     focusedBorder: inputBorder, border: inputBorder,
                   ),
+                ),
+                SizedBox(height: 10,),
+                TextButton(onPressed: (){}, child: Text('인증번호 받기',style: TextStyle(color: Colors.white, fontSize: 20),),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      minimumSize: Size(400, 50)
+                  ),
+                ),
+                SizedBox(height: 10,),
+                TextFormField(
+                  controller: _controller,
                   keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    MaskedInputFormatter("000 0000 0000")
+                  ],
+                  decoration: InputDecoration(
+                    focusedBorder: inputBorder, border: inputBorder,
+                  ),
+                ),
+                SizedBox(height: 10,),
+                TextButton(onPressed: (){}, child: Text('인증번호 확인',style: TextStyle(color: Colors.white, fontSize: 20),),
+                  style: TextButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColorDark,
+                      minimumSize: Size(400, 50)
+                  ),
                 ),
               ],
             ),
           ),
         );
       },
-
     );
   }
 }
