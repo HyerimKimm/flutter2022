@@ -23,6 +23,7 @@ class AuthPage extends StatelessWidget {
           body:Padding(
             padding: const EdgeInsets.all(common_padding),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Row(children: [
                   ExtendedImage.asset('assets/images/padlock.png', width: size.width*0.15, height: size.width*0.15,),
@@ -40,31 +41,17 @@ class AuthPage extends StatelessWidget {
                     focusedBorder: inputBorder, border: inputBorder,
                   ),
                 ),
-                SizedBox(height: 10,),
-                TextButton(onPressed: (){}, child: Text('인증번호 받기',style: TextStyle(color: Colors.white, fontSize: 20),),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      minimumSize: Size(400, 50)
-                  ),
-                ),
-                SizedBox(height: 10,),
+                SizedBox(height: common_small_padding,),
+                TextButton(onPressed: (){}, child: Text('인증번호 받기'),),
+                SizedBox(height: common_padding,),
                 TextFormField(
-                  controller: _controller,
                   keyboardType: TextInputType.number,
-                  inputFormatters: [
-                    MaskedInputFormatter("000 0000 0000")
-                  ],
                   decoration: InputDecoration(
                     focusedBorder: inputBorder, border: inputBorder,
                   ),
                 ),
-                SizedBox(height: 10,),
-                TextButton(onPressed: (){}, child: Text('인증번호 확인',style: TextStyle(color: Colors.white, fontSize: 20),),
-                  style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      minimumSize: Size(400, 50)
-                  ),
-                ),
+                SizedBox(height: common_small_padding,),
+                TextButton(onPressed: (){}, child: Text('인증번호 확인')),
               ],
             ),
           ),

@@ -62,6 +62,14 @@ class HyerimApp extends StatelessWidget {
             titleTextStyle: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
             elevation: 2,
           ),
+          textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                backgroundColor: Colors.blueGrey,
+                primary: Colors.white,
+                textStyle: TextStyle(fontSize: 20),
+                minimumSize: Size(50,50)
+             )
+          ),
       ),
       routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
     );

@@ -38,9 +38,9 @@ class IntroPage extends StatelessWidget {
                 children: [
                   TextButton(
                     onPressed: onButtonClick,
-                    child: Text('내 동네 설정하고 시작하기', style: TextStyle(color:Theme.of(context).primaryColorLight, fontSize: 18, fontWeight: FontWeight.bold, ),),
+                    child: Text('내 동네 설정하고 시작하기'),
                     style: TextButton.styleFrom(
-                        fixedSize: Size(380, 45), backgroundColor: Theme.of(context).primaryColor
+                        backgroundColor: Theme.of(context).primaryColor
                     ),
                   ),
                 ],

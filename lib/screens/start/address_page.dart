@@ -25,11 +25,7 @@ class AddressPage extends StatelessWidget {
               child:
                   TextButton.icon(
                     onPressed: (){},
-                    label: Text('현재위치로 찾기', style: TextStyle(color: Colors.white, fontSize: 18),),
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColorDark,
-                      minimumSize: Size(10, 40),
-                    ),
+                    label: Text('현재위치로 찾기'),
                     icon: Icon(Icons.search,color: Colors.white60,),
                   ),
             ),
