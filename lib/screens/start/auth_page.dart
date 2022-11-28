@@ -4,14 +4,21 @@ import 'package:flutter2022/utils/logger.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import '../../constants/common_size.dart';
 
-class AuthPage extends StatelessWidget {
+class AuthPage extends StatefulWidget {
   AuthPage({Key? key}) : super(key: key);
 
+  @override
+  State<AuthPage> createState() => _AuthPageState();
+}
+
+class _AuthPageState extends State<AuthPage> {
   final inputBorder = OutlineInputBorder(borderSide: BorderSide(color: Colors.grey));
+
   TextEditingController _phonenumberController = TextEditingController(text: '010');
   TextEditingController _codeController = TextEditingController();
-
   GlobalKey<FormState> _formkey = GlobalKey<FormState>();
+
+  VerificationStatus _verificationStatus = VerificationStatus.none;
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +67,34 @@ class AuthPage extends StatelessWidget {
                     logger.d(_formkey.currentState);
                     if(_formkey.currentState != null){
                      bool passed = _formkey.currentState!.validate();
-                     print(passed);
+                     if(passed){
+                       setState(() {
+                         _verificationStatus = VerificationStatus.codeSent;
+                       });
+                     }
                     }
                   }, child: Text('인증번호 받기'),),
                   SizedBox(height: common_padding,),
-                  TextFormField(
-                    controller: _codeController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      focusedBorder: inputBorder, border: inputBorder,
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    height: getVerificationHeight(_verificationStatus),
+                    child: TextFormField(
+                      controller: _codeController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: inputBorder, border: inputBorder,
+                      ),
+                      inputFormatters: [
+                        MaskedInputFormatter("000000")
+                      ],
                     ),
-                    inputFormatters: [
-                      MaskedInputFormatter("000000")
-                    ],
                   ),
                   SizedBox(height: common_small_padding,),
-                  TextButton(onPressed: (){}, child: Text('인증번호 확인')),
+                  AnimatedContainer(
+                      duration: Duration(seconds: 1),
+                      height: getVerificationHeight(_verificationStatus),
+                      child: TextButton( onPressed: (){}, child: Text('인증번호 확인') )
+                  ),
                 ],
               ),
             ),
@@ -84,4 +103,19 @@ class AuthPage extends StatelessWidget {
       },
     );
   }
+
+  double getVerificationHeight(VerificationStatus status){
+    switch(status){
+      case VerificationStatus.none:
+        return 0;
+      case VerificationStatus.codeSent:
+      case VerificationStatus.verifying:
+      case VerificationStatus.verificationDone:
+        return 60+common_small_padding;
+    }
+  }
+}
+
+enum VerificationStatus{
+  none, codeSent,verifying, verificationDone
 }
