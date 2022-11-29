@@ -11,6 +11,8 @@ class AuthPage extends StatefulWidget {
   State<AuthPage> createState() => _AuthPageState();
 }
 
+const duration = Duration(milliseconds: 300);
+
 class _AuthPageState extends State<AuthPage> {
   final inputBorder = OutlineInputBorder(borderSide: BorderSide(color: Colors.grey));
 
@@ -64,7 +66,7 @@ class _AuthPageState extends State<AuthPage> {
                   ),
                   SizedBox(height: common_small_padding,),
                   TextButton(onPressed: (){
-                    logger.d(_formkey.currentState);
+                    logger.d(_formkey.currentState!.validate());
                     if(_formkey.currentState != null){
                      bool passed = _formkey.currentState!.validate();
                      if(passed){
@@ -75,25 +77,35 @@ class _AuthPageState extends State<AuthPage> {
                     }
                   }, child: Text('인증번호 받기'),),
                   SizedBox(height: common_padding,),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 1),
-                    height: getVerificationHeight(_verificationStatus),
-                    child: TextFormField(
-                      controller: _codeController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        focusedBorder: inputBorder, border: inputBorder,
+                  AnimatedOpacity(
+                    duration: duration,
+                    opacity: (_verificationStatus==VerificationStatus.none)?0:1,
+                    child: AnimatedContainer(
+                      duration: duration,
+                      height: getVerificationHeight(status: _verificationStatus, height: 60),
+                      child: TextFormField(
+                        controller: _codeController,
+                        keyboardType: TextInputType.number,
+                        decoration: InputDecoration(
+                          focusedBorder: inputBorder, border: inputBorder,
+                        ),
+                        inputFormatters: [
+                          MaskedInputFormatter("000000")
+                        ],
                       ),
-                      inputFormatters: [
-                        MaskedInputFormatter("000000")
-                      ],
                     ),
                   ),
                   SizedBox(height: common_small_padding,),
-                  AnimatedContainer(
-                      duration: Duration(seconds: 1),
-                      height: getVerificationHeight(_verificationStatus),
-                      child: TextButton( onPressed: (){}, child: Text('인증번호 확인') )
+                  AnimatedOpacity(
+                    duration: duration,
+                    opacity: (_verificationStatus==VerificationStatus.none)?0:1,
+                    child: AnimatedContainer(
+                        duration: duration,
+                        height: getVerificationHeight(status: _verificationStatus, height:48),
+                        child: TextButton(onPressed: (){
+
+                        }, child: Text('인증번호 확인'))
+                    ),
                   ),
                 ],
               ),
@@ -104,14 +116,14 @@ class _AuthPageState extends State<AuthPage> {
     );
   }
 
-  double getVerificationHeight(VerificationStatus status){
+  double getVerificationHeight({VerificationStatus status=VerificationStatus.none, double height=0}){
     switch(status){
       case VerificationStatus.none:
         return 0;
       case VerificationStatus.codeSent:
       case VerificationStatus.verifying:
       case VerificationStatus.verificationDone:
-        return 60+common_small_padding;
+        return height+common_small_padding;
     }
   }
 }
