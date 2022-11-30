@@ -29,85 +29,87 @@ class _AuthPageState extends State<AuthPage> {
 
         Size size = MediaQuery.of(context).size;
 
-        return Form(
-          key: _formkey,
-          child: Scaffold(
-            appBar: AppBar(
-              title: Text('전화번호로 로그인', style: Theme.of(context).appBarTheme.titleTextStyle,),
-            ),
-            body:Padding(
-              padding: const EdgeInsets.all(common_padding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(children: [
-                    ExtendedImage.asset('assets/images/padlock.png', width: size.width*0.15, height: size.width*0.15,),
-                    SizedBox(width: common_small_padding,),
-                    Text('전화번호는 안전하게 보관되어\n어디에도 공개되지 않아요.')
-                  ]),
-                  SizedBox(height: common_padding,),
-                  TextFormField(
-                    controller: _phonenumberController,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      MaskedInputFormatter("000 0000 0000")
-                    ],
-                    decoration: InputDecoration(
-                      focusedBorder: inputBorder, border: inputBorder,
+        return IgnorePointer(
+          ignoring: (_verificationStatus == VerificationStatus.verifying)?true:false,
+          child: Form(
+            key: _formkey,
+            child: Scaffold(
+              appBar: AppBar(
+                title: Text('전화번호로 로그인', style: Theme.of(context).appBarTheme.titleTextStyle,),
+              ),
+              body:Padding(
+                padding: const EdgeInsets.all(common_padding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(children: [
+                      ExtendedImage.asset('assets/images/padlock.png', width: size.width*0.15, height: size.width*0.15,),
+                      SizedBox(width: common_small_padding,),
+                      Text('전화번호는 안전하게 보관되어\n어디에도 공개되지 않아요.')
+                    ]),
+                    SizedBox(height: common_padding,),
+                    TextFormField(
+                      controller: _phonenumberController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        MaskedInputFormatter("000 0000 0000")
+                      ],
+                      decoration: InputDecoration(
+                        focusedBorder: inputBorder, border: inputBorder,
+                      ),
+                      validator: (number1){
+                        if(number1!=null && number1.length==13){
+                          return null;
+                        }
+                        else{
+                          return '잘못된 전화번호입니다!';
+                        }
+                      },
                     ),
-                    validator: (number1){
-                      if(number1!=null && number1.length==13){
-                        return null;
+                    SizedBox(height: common_small_padding,),
+                    TextButton(onPressed: (){
+                      if(_formkey.currentState != null){
+                       bool passed = _formkey.currentState!.validate();
+                       if(passed){
+                         setState(() {
+                           _verificationStatus = VerificationStatus.codeSent;
+                         });
+                       }
                       }
-                      else{
-                        return '잘못된 전화번호입니다!';
-                      }
-                    },
-                  ),
-                  SizedBox(height: common_small_padding,),
-                  TextButton(onPressed: (){
-                    logger.d(_formkey.currentState!.validate());
-                    if(_formkey.currentState != null){
-                     bool passed = _formkey.currentState!.validate();
-                     if(passed){
-                       setState(() {
-                         _verificationStatus = VerificationStatus.codeSent;
-                       });
-                     }
-                    }
-                  }, child: Text('인증번호 받기'),),
-                  SizedBox(height: common_padding,),
-                  AnimatedOpacity(
-                    duration: duration,
-                    opacity: (_verificationStatus==VerificationStatus.none)?0:1,
-                    child: AnimatedContainer(
+                    }, child: Text('인증번호 받기'),),
+                    SizedBox(height: common_padding,),
+                    AnimatedOpacity(
                       duration: duration,
-                      height: getVerificationHeight(status: _verificationStatus, height: 60),
-                      child: TextFormField(
-                        controller: _codeController,
-                        keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          focusedBorder: inputBorder, border: inputBorder,
+                      opacity: (_verificationStatus==VerificationStatus.none)?0:1,
+                      child: AnimatedContainer(
+                        duration: duration,
+                        height: getVerificationHeight(status: _verificationStatus, height: 60),
+                        child: TextFormField(
+                          controller: _codeController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            focusedBorder: inputBorder, border: inputBorder,
+                          ),
+                          inputFormatters: [
+                            MaskedInputFormatter("000000")
+                          ],
                         ),
-                        inputFormatters: [
-                          MaskedInputFormatter("000000")
-                        ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: common_small_padding,),
-                  AnimatedOpacity(
-                    duration: duration,
-                    opacity: (_verificationStatus==VerificationStatus.none)?0:1,
-                    child: AnimatedContainer(
-                        duration: duration,
-                        height: getVerificationHeight(status: _verificationStatus, height:48),
-                        child: TextButton(onPressed: (){
-
-                        }, child: Text('인증번호 확인'))
+                    SizedBox(height: common_small_padding,),
+                    AnimatedOpacity(
+                      duration: duration,
+                      opacity: (_verificationStatus==VerificationStatus.none)?0:1,
+                      child: AnimatedContainer(
+                          duration: duration,
+                          height: getVerificationHeight(status: _verificationStatus, height:48),
+                          child: TextButton(onPressed: (){
+                            attemptVerifying();
+                          }, child: (_verificationStatus==VerificationStatus.verifying)?CircularProgressIndicator(color: Colors.white,):Text('인증번호 확인'))
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -125,6 +127,17 @@ class _AuthPageState extends State<AuthPage> {
       case VerificationStatus.verificationDone:
         return height+common_small_padding;
     }
+  }
+
+  void attemptVerifying() async{
+    setState(() {
+      _verificationStatus = VerificationStatus.verifying;
+    });
+
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      _verificationStatus = VerificationStatus.verificationDone;
+    });
   }
 }
 
