@@ -4,6 +4,7 @@ import 'package:flutter2022/router/locations.dart';
 import 'package:flutter2022/screens/start_screen.dart';
 import 'package:flutter2022/screens/splash_screen.dart';
 import 'package:flutter2022/utils/logger.dart';
+import 'package:provider/provider.dart';
 
 final _routedelegate = BeamerDelegate(
   guards: [BeamGuard(pathBlueprints: ['/'], check: (context, location){
@@ -47,31 +48,34 @@ class HyerimApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
-          primaryColorLight:Colors.white,
-          primaryColorDark: Colors.indigo,
-          textTheme: TextTheme(
-              headline6: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          fontFamily: 'NotoSansKR',
-          hintColor: Colors.grey[350],
-          appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            titleTextStyle: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
-            elevation: 2,
-          ),
-          textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(
-                backgroundColor: Colors.blueGrey,
-                primary: Colors.white,
-                textStyle: TextStyle(fontSize: 20),
-                minimumSize: Size(50,50)
-             )
-          ),
+    return ChangeNotifierProvider(
+      create: (BuildContext context) {  },
+      child: MaterialApp.router(
+        theme: ThemeData(
+            primarySwatch: Colors.blueGrey,
+            primaryColorLight:Colors.white,
+            primaryColorDark: Colors.indigo,
+            textTheme: TextTheme(
+                headline6: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            fontFamily: 'NotoSansKR',
+            hintColor: Colors.grey[350],
+            appBarTheme: AppBarTheme(
+              backgroundColor: Colors.white,
+              titleTextStyle: TextStyle(color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 20),
+              elevation: 2,
+            ),
+            textButtonTheme: TextButtonThemeData(
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.blueGrey,
+                  primary: Colors.white,
+                  textStyle: TextStyle(fontSize: 20),
+                  minimumSize: Size(50,50)
+               )
+            ),
+        ),
+        routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
       ),
-      routeInformationParser: BeamerParser(), routerDelegate: _routedelegate,
     );
   }
 }
